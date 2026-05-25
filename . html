@@ -1,0 +1,892 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Creative Design Portfolio – Fiverr</title>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Plus+Jakarta+Sans:wght@300;400;600;700;800&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --green: #1dbf73;
+    --green-dark: #0a9d5a;
+    --green-light: #b8f5d8;
+    --green-neon: #00ff94;
+    --bg: #0a0f0d;
+    --bg2: #0f1a14;
+    --card: #111c16;
+    --text: #e8f5ee;
+    --muted: #5a7a65;
+    --white: #ffffff;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: 'Plus Jakarta Sans', sans-serif;
+    overflow-x: hidden;
+    cursor: none;
+  }
+
+  /* Custom cursor */
+  .cursor {
+    position: fixed;
+    width: 12px; height: 12px;
+    background: var(--green-neon);
+    border-radius: 50%;
+    pointer-events: none;
+    z-index: 9999;
+    transition: transform 0.1s;
+    mix-blend-mode: difference;
+  }
+  .cursor-ring {
+    position: fixed;
+    width: 36px; height: 36px;
+    border: 1.5px solid var(--green);
+    border-radius: 50%;
+    pointer-events: none;
+    z-index: 9998;
+    transition: transform 0.25s ease, width 0.2s, height 0.2s;
+  }
+
+  /* Noise texture overlay */
+  body::before {
+    content: '';
+    position: fixed; inset: 0;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.04'/%3E%3C/svg%3E");
+    pointer-events: none;
+    z-index: 1;
+    opacity: 0.35;
+  }
+
+  /* Floating background tools */
+  .bg-tools {
+    position: fixed; inset: 0;
+    pointer-events: none;
+    z-index: 0;
+    overflow: hidden;
+  }
+
+  .tool {
+    position: absolute;
+    opacity: 0.06;
+    font-size: clamp(40px, 6vw, 90px);
+    color: var(--green);
+    animation: floatTool linear infinite;
+    user-select: none;
+  }
+
+  @keyframes floatTool {
+    0%   { transform: translateY(110vh) rotate(0deg); opacity: 0; }
+    5%   { opacity: 0.06; }
+    95%  { opacity: 0.06; }
+    100% { transform: translateY(-20vh) rotate(360deg); opacity: 0; }
+  }
+
+  /* SVG tool icons floating */
+  .tool-svg {
+    position: absolute;
+    opacity: 0.07;
+    animation: floatTool linear infinite;
+    filter: drop-shadow(0 0 8px var(--green));
+  }
+
+  /* ======= HERO ======= */
+  header {
+    position: relative;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    padding: 40px 20px;
+    z-index: 10;
+    overflow: hidden;
+  }
+
+  .hero-grid {
+    position: absolute; inset: 0;
+    background-image:
+      linear-gradient(rgba(29,191,115,0.04) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(29,191,115,0.04) 1px, transparent 1px);
+    background-size: 60px 60px;
+    animation: gridDrift 30s linear infinite;
+  }
+  @keyframes gridDrift {
+    from { background-position: 0 0; }
+    to   { background-position: 60px 60px; }
+  }
+
+  .hero-glow {
+    position: absolute;
+    width: 600px; height: 600px;
+    background: radial-gradient(circle, rgba(29,191,115,0.18) 0%, transparent 70%);
+    border-radius: 50%;
+    top: 50%; left: 50%;
+    transform: translate(-50%, -50%);
+    animation: pulse 4s ease-in-out infinite;
+    pointer-events: none;
+  }
+  @keyframes pulse {
+    0%,100% { transform: translate(-50%,-50%) scale(1); opacity: 0.8; }
+    50%      { transform: translate(-50%,-50%) scale(1.2); opacity: 1; }
+  }
+
+  .badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    background: rgba(29,191,115,0.12);
+    border: 1px solid rgba(29,191,115,0.3);
+    border-radius: 100px;
+    padding: 8px 20px;
+    font-size: 12px;
+    font-family: 'Space Mono', monospace;
+    color: var(--green);
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    margin-bottom: 24px;
+    animation: fadeDown 0.8s ease both;
+  }
+  .badge::before { content: '●'; animation: blink 1.5s infinite; }
+  @keyframes blink { 0%,100%{opacity:1} 50%{opacity:0.2} }
+
+  h1.hero-title {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: clamp(64px, 12vw, 160px);
+    line-height: 0.9;
+    letter-spacing: -2px;
+    background: linear-gradient(135deg, #ffffff 0%, var(--green-light) 40%, var(--green) 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    animation: fadeDown 0.9s 0.1s ease both;
+    position: relative;
+  }
+
+  .hero-sub {
+    font-size: clamp(14px, 2vw, 18px);
+    color: var(--muted);
+    max-width: 480px;
+    line-height: 1.7;
+    margin: 20px auto 36px;
+    animation: fadeDown 1s 0.2s ease both;
+  }
+  .hero-sub span { color: var(--green); font-weight: 700; }
+
+  .hero-cta {
+    display: flex;
+    gap: 16px;
+    flex-wrap: wrap;
+    justify-content: center;
+    animation: fadeDown 1s 0.35s ease both;
+  }
+
+  .btn-primary {
+    background: var(--green);
+    color: #000;
+    font-weight: 800;
+    font-size: 14px;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    border: none;
+    border-radius: 8px;
+    padding: 16px 36px;
+    cursor: pointer;
+    position: relative;
+    overflow: hidden;
+    transition: transform 0.2s, box-shadow 0.2s;
+    text-decoration: none;
+    display: inline-block;
+  }
+  .btn-primary:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 16px 40px rgba(29,191,115,0.4);
+  }
+  .btn-primary::after {
+    content: '';
+    position: absolute; inset: 0;
+    background: linear-gradient(120deg, transparent 0%, rgba(255,255,255,0.3) 50%, transparent 100%);
+    transform: translateX(-100%);
+    transition: 0.5s;
+  }
+  .btn-primary:hover::after { transform: translateX(100%); }
+
+  .btn-outline {
+    background: transparent;
+    color: var(--green);
+    border: 1.5px solid var(--green);
+    border-radius: 8px;
+    padding: 16px 36px;
+    font-weight: 700;
+    font-size: 14px;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    cursor: pointer;
+    transition: background 0.2s, color 0.2s;
+    text-decoration: none;
+    display: inline-block;
+  }
+  .btn-outline:hover { background: var(--green); color: #000; }
+
+  @keyframes fadeDown {
+    from { opacity: 0; transform: translateY(-20px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+
+  /* Stats bar */
+  .stats-bar {
+    display: flex;
+    justify-content: center;
+    gap: 60px;
+    padding: 40px 20px;
+    background: var(--bg2);
+    border-top: 1px solid rgba(29,191,115,0.1);
+    border-bottom: 1px solid rgba(29,191,115,0.1);
+    position: relative;
+    z-index: 10;
+    flex-wrap: wrap;
+  }
+  .stat { text-align: center; }
+  .stat-num {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 48px;
+    color: var(--green);
+    line-height: 1;
+  }
+  .stat-label {
+    font-size: 11px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: var(--muted);
+    margin-top: 4px;
+    font-family: 'Space Mono', monospace;
+  }
+
+  /* ======= SECTION ======= */
+  section {
+    position: relative;
+    z-index: 10;
+    padding: 100px 20px;
+    max-width: 1200px;
+    margin: 0 auto;
+  }
+
+  .section-label {
+    font-family: 'Space Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    color: var(--green);
+    margin-bottom: 12px;
+  }
+
+  .section-title {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: clamp(40px, 6vw, 80px);
+    line-height: 1;
+    color: var(--white);
+    margin-bottom: 16px;
+  }
+
+  .section-desc {
+    color: var(--muted);
+    font-size: 16px;
+    line-height: 1.7;
+    max-width: 520px;
+    margin-bottom: 56px;
+  }
+
+  /* ======= PORTFOLIO GRID ======= */
+  .portfolio-grid {
+    display: grid;
+    grid-template-columns: repeat(12, 1fr);
+    grid-template-rows: auto;
+    gap: 16px;
+  }
+
+  .p-card {
+    background: var(--card);
+    border-radius: 16px;
+    overflow: hidden;
+    border: 1px solid rgba(29,191,115,0.08);
+    position: relative;
+    cursor: pointer;
+    transition: transform 0.3s, border-color 0.3s, box-shadow 0.3s;
+    group: true;
+  }
+  .p-card:hover {
+    transform: translateY(-8px);
+    border-color: rgba(29,191,115,0.4);
+    box-shadow: 0 24px 60px rgba(0,0,0,0.4), 0 0 30px rgba(29,191,115,0.1);
+  }
+
+  .p-card img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+    transition: transform 0.5s ease;
+  }
+  .p-card:hover img { transform: scale(1.05); }
+
+  .p-card-overlay {
+    position: absolute; inset: 0;
+    background: linear-gradient(to top, rgba(0,0,0,0.85) 0%, transparent 50%);
+    opacity: 0;
+    transition: opacity 0.3s;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    padding: 24px;
+  }
+  .p-card:hover .p-card-overlay { opacity: 1; }
+
+  .p-card-tag {
+    display: inline-block;
+    background: var(--green);
+    color: #000;
+    font-size: 10px;
+    font-weight: 800;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    padding: 4px 10px;
+    border-radius: 4px;
+    margin-bottom: 8px;
+    width: fit-content;
+  }
+  .p-card-title {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 22px;
+    color: white;
+    line-height: 1.1;
+  }
+
+  /* Grid layout */
+  .p-card:nth-child(1) { grid-column: span 5; grid-row: span 2; height: 520px; }
+  .p-card:nth-child(2) { grid-column: span 7; height: 250px; }
+  .p-card:nth-child(3) { grid-column: span 4; height: 250px; }
+  .p-card:nth-child(4) { grid-column: span 3; height: 250px; }
+  .p-card:nth-child(5) { grid-column: span 5; height: 300px; }
+  .p-card:nth-child(6) { grid-column: span 7; height: 300px; }
+
+  /* Featured badge */
+  .featured-badge {
+    position: absolute;
+    top: 16px; left: 16px;
+    background: var(--green);
+    color: #000;
+    font-size: 10px;
+    font-weight: 800;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    padding: 6px 12px;
+    border-radius: 6px;
+    z-index: 5;
+    display: flex; align-items: center; gap: 6px;
+  }
+  .featured-badge::before { content: '★'; }
+
+  /* ======= SERVICES ======= */
+  .services-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 20px;
+  }
+
+  .service-card {
+    background: var(--card);
+    border: 1px solid rgba(29,191,115,0.1);
+    border-radius: 16px;
+    padding: 32px;
+    transition: border-color 0.3s, transform 0.3s;
+    position: relative;
+    overflow: hidden;
+  }
+  .service-card::before {
+    content: '';
+    position: absolute; top: 0; left: 0; right: 0;
+    height: 2px;
+    background: linear-gradient(90deg, var(--green), transparent);
+    transform: scaleX(0);
+    transform-origin: left;
+    transition: transform 0.4s;
+  }
+  .service-card:hover { border-color: rgba(29,191,115,0.3); transform: translateY(-4px); }
+  .service-card:hover::before { transform: scaleX(1); }
+
+  .service-icon {
+    width: 52px; height: 52px;
+    background: rgba(29,191,115,0.12);
+    border-radius: 12px;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 24px;
+    margin-bottom: 20px;
+    border: 1px solid rgba(29,191,115,0.2);
+  }
+
+  .service-title {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 24px;
+    color: var(--white);
+    margin-bottom: 10px;
+    letter-spacing: 1px;
+  }
+
+  .service-desc { color: var(--muted); font-size: 14px; line-height: 1.7; }
+
+  .service-price {
+    margin-top: 20px;
+    font-family: 'Space Mono', monospace;
+    font-size: 13px;
+    color: var(--green);
+  }
+
+  /* ======= TESTIMONIAL ======= */
+  .testimonial-strip {
+    background: linear-gradient(135deg, rgba(29,191,115,0.08) 0%, rgba(29,191,115,0.02) 100%);
+    border: 1px solid rgba(29,191,115,0.12);
+    border-radius: 24px;
+    padding: 60px;
+    position: relative;
+    overflow: hidden;
+    z-index: 10;
+    max-width: 1200px;
+    margin: 0 auto 100px;
+  }
+
+  .testimonial-strip::before {
+    content: '"';
+    position: absolute;
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 300px;
+    color: rgba(29,191,115,0.05);
+    top: -60px; left: 20px;
+    line-height: 1;
+    pointer-events: none;
+  }
+
+  .testimonials-row {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 40px;
+  }
+
+  .testimonial {
+    position: relative;
+    z-index: 2;
+  }
+
+  .stars { color: var(--green); font-size: 18px; margin-bottom: 14px; }
+
+  .testimonial-text {
+    font-size: 15px;
+    line-height: 1.8;
+    color: var(--text);
+    margin-bottom: 20px;
+    font-style: italic;
+  }
+
+  .testimonial-author {
+    display: flex; align-items: center; gap: 12px;
+  }
+  .avatar {
+    width: 40px; height: 40px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, var(--green-dark), var(--green));
+    display: flex; align-items: center; justify-content: center;
+    font-weight: 800;
+    font-size: 14px;
+    color: #000;
+    flex-shrink: 0;
+  }
+  .author-name { font-weight: 700; font-size: 14px; color: var(--white); }
+  .author-role { font-size: 12px; color: var(--muted); }
+
+  /* ======= CTA SECTION ======= */
+  .cta-section {
+    text-align: center;
+    padding: 100px 20px;
+    position: relative;
+    z-index: 10;
+    overflow: hidden;
+  }
+
+  .cta-bg {
+    position: absolute; inset: 0;
+    background: radial-gradient(ellipse at center, rgba(29,191,115,0.12) 0%, transparent 70%);
+    pointer-events: none;
+  }
+
+  .cta-title {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: clamp(48px, 8vw, 100px);
+    line-height: 1;
+    color: var(--white);
+    position: relative;
+  }
+  .cta-title span { color: var(--green); }
+
+  .cta-sub {
+    color: var(--muted);
+    font-size: 17px;
+    margin: 20px 0 40px;
+  }
+
+  /* Fiverr branding bar */
+  .fiverr-bar {
+    background: var(--green);
+    padding: 14px 20px;
+    text-align: center;
+    font-family: 'Space Mono', monospace;
+    font-size: 12px;
+    letter-spacing: 2px;
+    color: #000;
+    font-weight: 700;
+    text-transform: uppercase;
+    position: relative;
+    overflow: hidden;
+  }
+  .fiverr-bar::before {
+    content: '★ FIVERR TOP SELLER ★';
+    position: absolute; left: 40px;
+    top: 50%; transform: translateY(-50%);
+    opacity: 0.3;
+    letter-spacing: 4px;
+  }
+
+  /* Footer */
+  footer {
+    background: var(--bg2);
+    border-top: 1px solid rgba(29,191,115,0.1);
+    padding: 50px 40px;
+    text-align: center;
+    position: relative;
+    z-index: 10;
+  }
+  .footer-logo {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 36px;
+    color: var(--green);
+    letter-spacing: 4px;
+    margin-bottom: 16px;
+  }
+  .footer-links {
+    display: flex; gap: 30px; justify-content: center; flex-wrap: wrap; margin-bottom: 24px;
+  }
+  .footer-links a {
+    color: var(--muted);
+    text-decoration: none;
+    font-size: 13px;
+    letter-spacing: 1px;
+    transition: color 0.2s;
+  }
+  .footer-links a:hover { color: var(--green); }
+
+  .footer-copy { color: var(--muted); font-size: 12px; font-family: 'Space Mono', monospace; }
+
+  /* Scroll reveal */
+  .reveal {
+    opacity: 0;
+    transform: translateY(40px);
+    transition: opacity 0.8s ease, transform 0.8s ease;
+  }
+  .reveal.visible {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  /* Responsive */
+  @media (max-width: 768px) {
+    .p-card:nth-child(1) { grid-column: span 12; height: 300px; }
+    .p-card:nth-child(2) { grid-column: span 12; height: 220px; }
+    .p-card:nth-child(3) { grid-column: span 6; height: 200px; }
+    .p-card:nth-child(4) { grid-column: span 6; height: 200px; }
+    .p-card:nth-child(5) { grid-column: span 12; height: 220px; }
+    .p-card:nth-child(6) { grid-column: span 12; height: 220px; }
+    .stats-bar { gap: 30px; }
+    .testimonial-strip { padding: 36px 24px; }
+  }
+</style>
+</head>
+<body>
+
+<!-- Custom cursor -->
+<div class="cursor" id="cursor"></div>
+<div class="cursor-ring" id="cursorRing"></div>
+
+<!-- Floating background tools -->
+<div class="bg-tools" id="bgTools"></div>
+
+<!-- Fiverr bar -->
+<div class="fiverr-bar">✦ AVAILABLE FOR HIRE ON FIVERR ✦ &nbsp;&nbsp; GRAPHIC DESIGN · BRANDING · SOCIAL MEDIA</div>
+
+<!-- HERO -->
+<header>
+  <div class="hero-grid"></div>
+  <div class="hero-glow"></div>
+
+  <div class="badge">Available Now · Fiverr Pro Designer</div>
+
+  <h1 class="hero-title">VISUAL<br>DESIGN<br>STUDIO</h1>
+
+  <p class="hero-sub">
+    Bold <span>graphic design</span> that stops the scroll. Posters, social ads, branding & more — delivered fast with pixel-perfect precision.
+  </p>
+
+  <div class="hero-cta">
+    <a href="#portfolio" class="btn-primary">View Portfolio</a>
+    <a href="#contact" class="btn-outline">Hire Me on Fiverr</a>
+  </div>
+</header>
+
+<!-- Stats -->
+<div class="stats-bar">
+  <div class="stat">
+    <div class="stat-num">250+</div>
+    <div class="stat-label">Projects Done</div>
+  </div>
+  <div class="stat">
+    <div class="stat-num">98%</div>
+    <div class="stat-label">5-Star Reviews</div>
+  </div>
+  <div class="stat">
+    <div class="stat-num">150+</div>
+    <div class="stat-label">Happy Clients</div>
+  </div>
+  <div class="stat">
+    <div class="stat-num">24h</div>
+    <div class="stat-label">Delivery Time</div>
+  </div>
+</div>
+
+<!-- PORTFOLIO -->
+<section id="portfolio">
+  <p class="section-label reveal">✦ My Work</p>
+  <h2 class="section-title reveal">SELECTED<br>PROJECTS</h2>
+  <p class="section-desc reveal">From food branding to product launches — every project crafted with intention and visual impact.</p>
+
+  <div class="portfolio-grid">
+
+    <div class="p-card reveal">
+      <div class="featured-badge">Featured</div>
+      <img src="/mnt/user-data/uploads/20260306_162732.jpg" alt="Soft & Sweet – Gulab Jamun Poster">
+      <div class="p-card-overlay">
+        <span class="p-card-tag">Food Poster</span>
+        <div class="p-card-title">SOFT & SWEET<br>DESSERT CAMPAIGN</div>
+      </div>
+    </div>
+
+    <div class="p-card reveal">
+      <img src="/mnt/user-data/uploads/20260406_235854.jpg" alt="Sneaker Ad">
+      <div class="p-card-overlay">
+        <span class="p-card-tag">Product Ad</span>
+        <div class="p-card-title">ULTRA COMFORT<br>SNEAKER LAUNCH</div>
+      </div>
+    </div>
+
+    <div class="p-card reveal">
+      <img src="/mnt/user-data/uploads/20260306_161019.png" alt="Sweet Like Heart Poster">
+      <div class="p-card-overlay">
+        <span class="p-card-tag">Flyer Design</span>
+        <div class="p-card-title">SWEET LIKE<br>HEART FLYER</div>
+      </div>
+    </div>
+
+    <div class="p-card reveal">
+      <img src="/mnt/user-data/uploads/file_00000000639c71faacd301b18378597d.png" alt="EKOS Natural Product">
+      <div class="p-card-overlay">
+        <span class="p-card-tag">Brand Ad</span>
+        <div class="p-card-title">EKOS ANDIROBA<br>NATURAL BRAND</div>
+      </div>
+    </div>
+
+    <div class="p-card reveal">
+      <img src="/mnt/user-data/uploads/file_00000000703c71faac17054ee71438e4.png" alt="Ice Cream Poster">
+      <div class="p-card-overlay">
+        <span class="p-card-tag">Creative Poster</span>
+        <div class="p-card-title">ICECREAM<br>ADVENTURE AD</div>
+      </div>
+    </div>
+
+    <div class="p-card reveal">
+      <img src="/mnt/user-data/uploads/Untitled377_20260306001322.png" alt="Food Brand Poster">
+      <div class="p-card-overlay">
+        <span class="p-card-tag">Restaurant Ad</span>
+        <div class="p-card-title">EAT GOOD<br>FEEL GREAT BRAND</div>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- SERVICES -->
+<section id="services">
+  <p class="section-label reveal">✦ What I Offer</p>
+  <h2 class="section-title reveal">MY<br>SERVICES</h2>
+  <p class="section-desc reveal">Professional graphic design services tailored for businesses, brands, and social media.</p>
+
+  <div class="services-grid">
+    <div class="service-card reveal">
+      <div class="service-icon">🎨</div>
+      <div class="service-title">Social Media Design</div>
+      <p class="service-desc">Eye-catching posts, stories, and ads for Instagram, Facebook, and more. Scroll-stopping visuals that convert.</p>
+      <div class="service-price">Starting at $10</div>
+    </div>
+    <div class="service-card reveal">
+      <div class="service-icon">📱</div>
+      <div class="service-title">Product Advertising</div>
+      <p class="service-desc">Professional product mockups and promotional banners that highlight your product's best features.</p>
+      <div class="service-price">Starting at $15</div>
+    </div>
+    <div class="service-card reveal">
+      <div class="service-icon">🍽️</div>
+      <div class="service-title">Food & Restaurant Ads</div>
+      <p class="service-desc">Mouth-watering food posters, menus, and promotional material that make customers hungry.</p>
+      <div class="service-price">Starting at $12</div>
+    </div>
+    <div class="service-card reveal">
+      <div class="service-icon">✏️</div>
+      <div class="service-title">Brand Identity</div>
+      <p class="service-desc">Logo design, color palettes, typography kits, and brand guidelines for a cohesive visual identity.</p>
+      <div class="service-price">Starting at $25</div>
+    </div>
+    <div class="service-card reveal">
+      <div class="service-icon">📄</div>
+      <div class="service-title">Flyers & Posters</div>
+      <p class="service-desc">Print-ready and digital flyers, event posters, and promotional materials with bold impact.</p>
+      <div class="service-price">Starting at $8</div>
+    </div>
+    <div class="service-card reveal">
+      <div class="service-icon">⚡</div>
+      <div class="service-title">Express Delivery</div>
+      <p class="service-desc">Need it fast? Get your design in as little as 6 hours with my express turnaround service.</p>
+      <div class="service-price">+ Rush fee applies</div>
+    </div>
+  </div>
+</section>
+
+<!-- TESTIMONIALS -->
+<div class="testimonial-strip reveal" style="padding: 20px;">
+  <section style="padding: 40px 0; max-width: 1200px; margin: 0 auto;">
+    <p class="section-label">✦ Client Reviews</p>
+    <h2 class="section-title" style="margin-bottom: 40px;">WHAT CLIENTS<br>ARE SAYING</h2>
+    <div class="testimonials-row">
+      <div class="testimonial">
+        <div class="stars">★★★★★</div>
+        <p class="testimonial-text">"Absolutely incredible work! The poster exceeded my expectations. Fast delivery and very professional communication throughout the whole project."</p>
+        <div class="testimonial-author">
+          <div class="avatar">AK</div>
+          <div>
+            <div class="author-name">Ahmed K.</div>
+            <div class="author-role">Restaurant Owner · UAE</div>
+          </div>
+        </div>
+      </div>
+      <div class="testimonial">
+        <div class="stars">★★★★★</div>
+        <p class="testimonial-text">"Best designer on Fiverr! My product ad got 3x more engagement than before. Will definitely order again for all my future campaigns."</p>
+        <div class="testimonial-author">
+          <div class="avatar">SP</div>
+          <div>
+            <div class="author-name">Sofia P.</div>
+            <div class="author-role">E-commerce Brand · US</div>
+          </div>
+        </div>
+      </div>
+      <div class="testimonial">
+        <div class="stars">★★★★★</div>
+        <p class="testimonial-text">"Delivered a stunning ice cream campaign within 12 hours. The creativity is unmatched and he understood my vision perfectly from the brief."</p>
+        <div class="testimonial-author">
+          <div class="avatar">RJ</div>
+          <div>
+            <div class="author-name">Raj J.</div>
+            <div class="author-role">Food Brand · India</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+</div>
+
+<!-- CTA -->
+<div class="cta-section" id="contact">
+  <div class="cta-bg"></div>
+  <p class="section-label" style="position:relative">✦ Let's Work Together</p>
+  <h2 class="cta-title reveal">READY TO<br><span>STAND OUT?</span></h2>
+  <p class="cta-sub reveal">Order on Fiverr and get your design in 24 hours or less.</p>
+  <div class="hero-cta reveal">
+    <a href="#" class="btn-primary">Order on Fiverr</a>
+    <a href="#portfolio" class="btn-outline">View More Work</a>
+  </div>
+</div>
+
+<!-- Footer -->
+<footer>
+  <div class="footer-logo">DESIGN STUDIO</div>
+  <div class="footer-links">
+    <a href="#">Portfolio</a>
+    <a href="#">Services</a>
+    <a href="#">Reviews</a>
+    <a href="#">Contact</a>
+    <a href="#">Fiverr Profile</a>
+  </div>
+  <p class="footer-copy">© 2026 · Graphic Design Studio · All Rights Reserved · Powered by creativity</p>
+</footer>
+
+<script>
+  // Custom cursor
+  const cursor = document.getElementById('cursor');
+  const ring = document.getElementById('cursorRing');
+  let mx = 0, my = 0, rx = 0, ry = 0;
+  document.addEventListener('mousemove', e => { mx = e.clientX; my = e.clientY; });
+  (function animCursor() {
+    cursor.style.left = (mx - 6) + 'px';
+    cursor.style.top  = (my - 6) + 'px';
+    rx += (mx - rx) * 0.12;
+    ry += (my - ry) *.12;
+    ring.style.left = (rx - 18) + 'px';
+    ring.style.top  = (ry - 18) + 'px';
+    requestAnimationFrame(animCursor);
+  })();
+
+  // Floating tools
+  const toolSymbols = [
+    '✏️','✒️','🖊️','🖋️','📐','📏','🖌️','✂️','🔲','⬜','⬛','🔳','🎨','🖼️','📐',
+    '◻','◼','△','▽','◯','⬡','✦','⊞','⊟'
+  ];
+  const container = document.getElementById('bgTools');
+  for (let i = 0; i < 22; i++) {
+    const el = document.createElement('div');
+    el.className = 'tool';
+    el.textContent = toolSymbols[i % toolSymbols.length];
+    el.style.left = Math.random() * 100 + 'vw';
+    el.style.fontSize = (30 + Math.random() * 70) + 'px';
+    el.style.animationDuration = (12 + Math.random() * 20) + 's';
+    el.style.animationDelay = -(Math.random() * 20) + 's';
+    container.appendChild(el);
+  }
+
+  // Scroll reveal
+  const reveals = document.querySelectorAll('.reveal');
+  const obs = new IntersectionObserver((entries) => {
+    entries.forEach((e, i) => {
+      if (e.isIntersecting) {
+        setTimeout(() => e.target.classList.add('visible'), i * 60);
+      }
+    });
+  }, { threshold: 0.1 });
+  reveals.forEach(el => obs.observe(el));
+
+  // Smooth scroll
+  document.querySelectorAll('a[href^="#"]').forEach(a => {
+    a.addEventListener('click', e => {
+      const target = document.querySelector(a.getAttribute('href'));
+      if (target) { e.preventDefault(); target.scrollIntoView({ behavior: 'smooth' }); }
+    });
+  });
+</script>
+</body>
+</html>
